@@ -2,10 +2,9 @@ var mysql = require('mysql');
 
 
 var db = mysql.createConnection({
-	multipleStatements: true,
   host: 'localhost',
   user: 'root',
-  password: 'nick',
+  password: 'password',
   database: 'photos'
 });
 
@@ -19,7 +18,7 @@ db.connect((err) => {
 
 var getAllPicturesById = function(restaurant, cb) {
 	db.query(`SELECT url, postdate, caption, user FROM pictures WHERE restaurant = ${restaurant}`, (err, result) => {
-	  if(err) {
+	  if (err) {
 	  	cb(err);
 	  }	else {
 	  	cb(null, result);
