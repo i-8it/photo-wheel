@@ -1,6 +1,30 @@
 # Project Name
 
-> Project description
+> Yelp Photowheel
+
+## Create
+Adds a new user to the database
+POST - /api/photos/users
+Adds a new restaurant to the database
+POST - /api/photos/restaurants
+
+## Read
+Retrieves a user from the database, given its name or ID
+GET - /api/photos/:idOrName/users
+Retrieves a restaurant from the database, given its name or ID
+GET - /api/photos/:idOrName/restaurants
+
+## Update
+Updates a user's info, given its ID
+PATCH - /api/photos/users/:id
+Updates a restaurant's info, given its ID
+PATCH - /api/photos/restaurants/:id
+
+## Delete
+Deletes a user from the database, given its ID
+DELETE - /api/photos/users/:id
+Deletes a restaurant from the database, given its ID
+DELETE - /api/photos/restaurants/:id
 
 ## Related Projects
 
