@@ -44,13 +44,6 @@ for (var i = 0; i < 10; i++) {
     var year = date.substring(0, 4);
     var day = date.substring(8, 10);
     var newDate = month + ' ' + day + ', ' + year;
-    photoData.push({
-      url: photos[randomizeInt(photos.length - 1)],
-      postdate: newDate,
-      caption: faker.random.words(),
-      user: randomizeInt(users.length),
-      restaurant: i + 1
-    });
     photosCSV += `${photos[randomizeInt(photos.length - 1)]},${newDate},${faker.random.words()},${randomizeInt(users.length)},${i + 1}${'\n'}`;
   }
 }
