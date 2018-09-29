@@ -22,7 +22,8 @@ var randomizeInt = (int) => {
   return 1+Math.floor(Math.random() * int);
 }
 
-for (var i = 0; i < 1000000; i++) {
+let usersCSV = '';
+for (var i = 0; i < 100; i++) {
   var name = faker.name.findName();
   var space = name.indexOf(' ');
   var str = name.substr(0, space + 2);
@@ -30,19 +31,13 @@ for (var i = 0; i < 1000000; i++) {
   newName.push('.');
   newName = newName.join('');
   let eliteStatus = isElite();
-  users.push({
-    name: newName,
-    elite: eliteStatus,
-    friends: randomizeInt(1300),
-    reviews: randomizeInt(300),
-    avatar: faker.image.avatar()
-  });
+  usersCSV += `${newName},${eliteStatus},${randomizeInt(1300)},${randomizeInt(300)},${faker.image.avatar()}${'\n'}`;
 }
 
 const months = {'01': 'January', '02': 'February', '03': 'March', '04': 'April', '05': 'May', '06': 'June', '07': 'July', '08': 'August', '09': 'September', '10': 'October', '11': 'November', '12': 'December'};
 
-
-for (var i = 0; i < businessNames.length; i++) {
+let photosCSV = '';
+for (var i = 0; i < 10; i++) {
   for (var j = 0; j < 6; j++) {
     var date = JSON.stringify(faker.date.between('2010-02-26', '2018-01-04')).substr(1, 10);
     var month = months[date.substring(5, 7)];
@@ -56,34 +51,47 @@ for (var i = 0; i < businessNames.length; i++) {
       user: randomizeInt(users.length),
       restaurant: i + 1
     });
+    photosCSV += `${photos[randomizeInt(photos.length - 1)]},${newDate},${faker.random.words()},${randomizeInt(users.length)},${i + 1}${'\n'}`;
   }
 }
 
-// console.time('Users');
-// fs.writeFile('users.json', JSON.stringify(users), (err) => {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log('The user data file has been saved!');
-// });
-// console.timeEnd('Users');
-
-console.time('UsersAppended');
-fs.appendFile('users.json', JSON.stringify(users), (err) => {
+console.time('Users');
+fs.writeFile('csvtest.csv', usersCSV, (err) => {
   if (err) {
     throw err;
+  } else {
+    let i = 0;
+    while (i < 9) {
+      fs.appendFile('csvtest.csv', usersCSV, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+      i += 1;
+    }
   }
-  console.log('More user data was appended to users.json!');
+  console.log('The user data file has been saved.');
 });
-console.timeEnd('UsersAppended');
+console.timeEnd('Users');
 
-// fs.writeFile('photos.json', JSON.stringify(photoData), (err) => {
-//   if (err) {
-//     throw err;
-//   }
-//   console.log('The photo data file has been saved!');
-// });
-
+console.time('Photos');
+fs.writeFile('photos.csv', photosCSV, (err) => {
+  if (err) {
+    throw err;
+  } else {
+    let i = 0;
+    while (i < 9) {
+      fs.appendFile('photos.csv', photosCSV, (err) => {
+        if (err) {
+          throw err;
+        }
+      });
+      i += 1;
+    }
+  }
+  console.log('The user data file has been saved.');
+});
+console.timeEnd('Photos');
 
 module.exports.photoData = photoData;
 module.exports.users = users;

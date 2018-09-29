@@ -1,9 +1,37 @@
 const { Client } = require('pg');
-const client = new Client();
+var data = require('../userDBTest.json');
 
-client.connect();
-
-client.query('SELECT $1::text as message', ['Hello world!'], (err, res) => {
-  console.log(err ? err.stack : res.rows[0].message); // Hello World!
-  client.end();
+const client = new Client({
+  user: 'arjunmehta',
+  host: 'localhost',
+  database: 'photowheel',
+  password: '',
+  port: 5432,
 });
+
+client.connect((err) => {
+  if (err) {
+    console.error('connection error', err.stack);
+  } else {
+    console.log('connected to da DB');
+    // client.query(`COPY yelpusers from ${data}`, (err, res) => {
+    //   if (err) {
+    //     console.error(err);
+    //   } else {
+    //     console.log('successfully inserted into DB');
+    //   }
+    // });
+  }
+});
+
+for (let i = 0; i < data.length; i++) {
+  const values = [data[i].name, data[i].elite, data[i].friends, data[i].reviews, data[i].avatar];
+  client.query('INSERT INTO users (name, elite, friends, reviews, avatar) VALUES (?, ?, ?, ?, ?)', values, (err, res) => {
+    if (err) {
+      console.error(err);
+      console.log(values);
+    } else {
+      console.log('Successfully inserted into DB ', i);
+    }
+  });
+}
